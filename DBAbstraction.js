@@ -3,7 +3,7 @@ const MongoClient = require('mongodb').MongoClient;
 class DBAbstraction {
     constructor(dbUrl) {
         this.dbUrl = dbUrl;
-    } 
+    }
 
     init() {
         return new Promise((resolve, reject) => {
@@ -18,98 +18,122 @@ class DBAbstraction {
         });
     }
 
-    async insert(name, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed ) {
-        var info = [saxMan, saxModel, mouthMan, mouthModel, lig, reed]
-
+    async getTeamName(searchValue) {
+        console.log(searchValue);
+        let teamName = [];
+        let teamNameTwo = [];
         try {
-            const Musician = {
-                name: name,
-                sax: [{type: saxType, des: info}],
+            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
+            const db = client.db('GamesDB');
+
+            teamName = await db.collection('Games').find({ "NameOne": searchValue }).toArray();
+            teamNameTwo = await db.collection('Games').find({ "NameTwo": searchValue }).toArray();
+            teamNameTwo.forEach(e => {
+                teamName.push(e);
+            })
+
+            client.close();
+        } catch (err) {
+            console.log('There was a problem finding the games');
+            throw err;
+        }
+        console.log(teamName);
+        return teamName;
+
+    }
+
+    async getLocationName(searchValue) {
+
+        let locationName = [];
+        try {
+            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
+            const db = client.db('GamesDB');
+
+            locationName = await db.collection('Games').find({ "Locationn": searchValue }).toArray();
+            client.close();
+        } catch (err) {
+            console.log('There was a problem finding the games');
+            throw err;
+        }
+        //console.log(allGames);
+        return locationName;
+
+    }
+
+    async getGameDate(searchValue) {
+
+        let gameDate = [];
+        try {
+            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
+            const db = client.db('GamesDB');
+
+            gameDate = await db.collection('Games').find({ "GameDate": searchValue }).toArray();
+            client.close();
+        } catch (err) {
+            console.log('There was a problem finding the games');
+            throw err;
+        }
+        //console.log(allGames);
+        return gameDate;
+
+    }
+
+    async getAllGames() {
+
+        let allGames = [];
+        try {
+            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
+            const db = client.db('GamesDB');
+
+            allGames = await db.collection('Games').find().toArray();
+            client.close();
+        } catch (err) {
+            console.log('There was a problem finding the games');
+            throw err;
+        }
+        //console.log(allGames);
+        return allGames;
+
+    }
+
+    async insertGame(NameOne, NameTwo, Score, Locationn, GameDate) {
+        try {
+            const newGame = {
+                NameOne: NameOne,
+                NameTwo: NameTwo,
+                Score: Score,
+                Locationn: Locationn,
+                GameDate: GameDate
             };
 
-            //db.sax.insert({"Musician":"Alex", "Alto" : ["Jupiter", "Arisian", "JodyJazz", "Classical", "Rico H", "Vandoren V16 2 1/2"]})
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-            const db = client.db('SaxDB');
+            const db = client.db('GamesDB');
 
-            await db.collection('Sax').insertOne(Musician); //can also insertMany
+            await db.collection('Games').insertOne(newGame);
             client.close();
-
-        } catch(err) {
+        } catch (err) {
             console.log('There was a problem with the insert');
             throw err;
         }
     }
 
-    async insertSax(name, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed ) {
-        var info = [saxMan, saxModel, mouthMan, mouthModel, lig, reed]
+    async getGameByName(NameOne, NameTwo) {
 
-        try {
-            //db.sax.insert({"Musician":"Alex", "Alto" : ["Jupiter", "Arisian", "JodyJazz", "Classical", "Rico H", "Vandoren V16 2 1/2"]})
-            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-            const db = client.db('SaxDB');
-
-            await db.collection('Sax').updateOne({name: name}, {$push:({sax: {type: saxType, des: info}})});
-            client.close();
-
-        } catch(err) {
-            console.log('There was a problem with the insert');
-            throw err;
-        }
-    }    
-
-    // async insert(name, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed ) {
-    //     var info = [saxMan, saxModel, mouthMan, mouthModel, lig, reed]
-
-    //     try {
-    //         const Musician = {
-    //             musician: name,
-    //             sax: saxType,
-    //             info: info,
-    //         };
-
-    //         //db.sax.insert({"Musician":"Alex", "Alto" : ["Jupiter", "Arisian", "JodyJazz", "Classical", "Rico H", "Vandoren V16 2 1/2"]})
-    //         const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-    //         const db = client.db('SaxDB');
-
-    //         await db.collection('Sax').insertOne(Musician); //can also insertMany
-    //         client.close();
-
-    //     } catch(err) {
-    //         console.log('There was a problem with the insert');
-    //         throw err;
-    //     }
-    // }
-
-    async getAll() {
-        
-        let all = [];
+        let legend = null;
         try {
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-            const db = client.db('SaxDB');
+            const db = client.db('GamesDB');
 
-            all = await db.collection('Sax').find().toArray();
+            legend = await db.collection('Games').findOne({ "NameOne": NameOne });
+            if (legend === null) {
+                legend = await db.collection('Games').findOne({ "NameTwo": NameTwo });
+            }
             client.close();
         } catch (err) {
-            console.log('There was a problem finding the games');
+            console.log('There was a problem finding the legend');
             throw err;
         }
-        return all;
+        return legend;
     }
-
-    async getByName(userName) {
-        let all = [];
-        try {
-            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-            const db = client.db('SaxDB');
-
-            all = await db.collection('Sax').mapReduce({"musician": userName}).toArray();
-            client.close();
-        } catch (err) {
-            console.log('There was a problem finding the games');
-            throw err;
-        }
-        return all;
-    }
-
 }
 module.exports = DBAbstraction;
