@@ -25,23 +25,19 @@ Handlebars.registerHelper('json', function(items) {
 
 
 app.get('/', async (req, res) => {
-    const musician = await db.getAll();
+    //const musician = await db.getAll();
     
-    var str = JSON.stringify(musician);
-    console.log(str);
-    res.render('saxes', {Musician: musician});
+    //var str = JSON.stringify(musician);
+    //console.log(str);
+    res.render('home');
 });
 
-app.get('/new', async (req, res) => {
-    res.render('addsax');
-});
-
-app.get('/info', async (req, res) => {
-    res.render('info');
+app.get('/class', async (req, res) => {
+    res.render('class');
 });
 
 app.get('/website', async (req, res) => {
-    res.render('website');
+    res.render('archive');
 });
 
 
