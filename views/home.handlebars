@@ -1,0 +1,29 @@
+<table id="t01" class="table" cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th>Musician</th>
+      </tr>
+    </thead>
+    <tbody>
+        {{#each Musician}}
+            <tr>
+                <td class="font-weight-bold">{{name}}</td>
+            </tr>
+            {{#each sax}}
+            <tr>
+                <td class="font-italic">{{type}}</td>
+                <td class="font-weight-light">{{des.[0]}}</td>
+                <td class="font-weight-light">{{des.[1]}}</td>
+                <td class="font-weight-light">{{des.[2]}}</td>
+                <td class="font-weight-light">{{des.[3]}}</td>
+                <td class="font-weight-light">{{des.[4]}}</td>
+                <td class="font-weight-light">{{des.[5]}}</td>
+            </tr>
+            {{/each}}
+        {{/each}}
+    </tbody>
+</table>
+
+
+
+

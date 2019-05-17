@@ -8,7 +8,7 @@ const handlebars = require('express-handlebars').create({defaultLayout: 'main'})
 
 const DBAbstraction = require('./DBAbstraction');
 
-const db = new DBAbstraction('mongodb://localhost:27017');
+const db = new DBAbstraction('mongodb://10.0.0.2/attendance');
 
 const app = express();
 
@@ -47,11 +47,16 @@ app.use((req, res) => {
     res.status(404).send(`<h2>Uh Oh!</h2><p>Sorry ${req.url} cannot be found here</p>`);
 });
 
-db.init()
-    .then(() => {
-        app.listen(53140, () => console.log('The server is up and running...'));
-    })
-    .catch(err => {
-        console.log('Problem setting up the database');
-        console.log(err);
-    });
+
+app.listen(53140, function () {
+    console.log('The server is up and running...');
+});
+
+// db.init()
+//     .then(() => {
+//         app.listen(53140, () => console.log('The server is up and running...'));
+//     })
+//     .catch(err => {
+//         console.log('Problem setting up the database');
+//         console.log(err);
+//     });

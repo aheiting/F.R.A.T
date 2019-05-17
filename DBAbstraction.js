@@ -18,20 +18,18 @@ class DBAbstraction {
         });
     }
 
-    async insert(name, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed ) {
-        var info = [saxMan, saxModel, mouthMan, mouthModel, lig, reed]
+    async insert(className, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed ) {
 
         try {
-            const Musician = {
-                name: name,
-                sax: [{type: saxType, des: info}],
+            const Class = {
+                className: name,
+                students: [{type: saxType, des: info}],
             };
 
-            //db.sax.insert({"Musician":"Alex", "Alto" : ["Jupiter", "Arisian", "JodyJazz", "Classical", "Rico H", "Vandoren V16 2 1/2"]})
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-            const db = client.db('SaxDB');
+            const db = client.db('AttendanceDB');
 
-            await db.collection('Sax').insertOne(Musician); //can also insertMany
+            await db.collection('classes').insertOne(Class); //can also insertMany
             client.close();
 
         } catch(err) {
@@ -41,14 +39,12 @@ class DBAbstraction {
     }
 
     async insertSax(name, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed ) {
-        var info = [saxMan, saxModel, mouthMan, mouthModel, lig, reed]
 
         try {
-            //db.sax.insert({"Musician":"Alex", "Alto" : ["Jupiter", "Arisian", "JodyJazz", "Classical", "Rico H", "Vandoren V16 2 1/2"]})
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-            const db = client.db('SaxDB');
+            const db = client.db('AttendanceDB');
 
-            await db.collection('Sax').updateOne({name: name}, {$push:({sax: {type: saxType, des: info}})});
+            await db.collection('classes').updateOne({className: name}, {$push:()});
             client.close();
 
         } catch(err) {
@@ -57,37 +53,14 @@ class DBAbstraction {
         }
     }    
 
-    // async insert(name, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed ) {
-    //     var info = [saxMan, saxModel, mouthMan, mouthModel, lig, reed]
-
-    //     try {
-    //         const Musician = {
-    //             musician: name,
-    //             sax: saxType,
-    //             info: info,
-    //         };
-
-    //         //db.sax.insert({"Musician":"Alex", "Alto" : ["Jupiter", "Arisian", "JodyJazz", "Classical", "Rico H", "Vandoren V16 2 1/2"]})
-    //         const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-    //         const db = client.db('SaxDB');
-
-    //         await db.collection('Sax').insertOne(Musician); //can also insertMany
-    //         client.close();
-
-    //     } catch(err) {
-    //         console.log('There was a problem with the insert');
-    //         throw err;
-    //     }
-    // }
-
     async getAll() {
         
         let all = [];
         try {
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-            const db = client.db('SaxDB');
+            const db = client.db('AttendanceDB');
 
-            all = await db.collection('Sax').find().toArray();
+            all = await db.collection('classes').find().toArray();
             client.close();
         } catch (err) {
             console.log('There was a problem finding the games');
@@ -96,20 +69,20 @@ class DBAbstraction {
         return all;
     }
 
-    async getByName(userName) {
-        let all = [];
-        try {
-            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-            const db = client.db('SaxDB');
+    // async getByName(userName) {
+    //     let all = [];
+    //     try {
+    //         const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
+    //         const db = client.db('AttendanceDB');
 
-            all = await db.collection('Sax').mapReduce({"musician": userName}).toArray();
-            client.close();
-        } catch (err) {
-            console.log('There was a problem finding the games');
-            throw err;
-        }
-        return all;
-    }
+    //         all = await db.collection('Sax').mapReduce({"musician": userName}).toArray();
+    //         client.close();
+    //     } catch (err) {
+    //         console.log('There was a problem finding the games');
+    //         throw err;
+    //     }
+    //     return all;
+    // }
 
 }
 module.exports = DBAbstraction;
