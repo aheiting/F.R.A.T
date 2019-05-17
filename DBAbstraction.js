@@ -3,7 +3,7 @@ const MongoClient = require('mongodb').MongoClient;
 class DBAbstraction {
     constructor(dbUrl) {
         this.dbUrl = dbUrl;
-    } 
+    }
 
     init() {
         return new Promise((resolve, reject) => {
@@ -18,12 +18,12 @@ class DBAbstraction {
         });
     }
 
-    async insert(className, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed ) {
+    async insert(className, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed) {
 
         try {
             const Class = {
                 className: name,
-                students: [{type: saxType, des: info}],
+                students: [{ type: saxType, des: info }],
             };
 
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
@@ -32,29 +32,29 @@ class DBAbstraction {
             await db.collection('classes').insertOne(Class); //can also insertMany
             client.close();
 
-        } catch(err) {
+        } catch (err) {
             console.log('There was a problem with the insert');
             throw err;
         }
     }
 
-    async insertSax(name, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed ) {
+    async insertSax(name, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed) {
 
         try {
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
 
-            await db.collection('classes').updateOne({className: name}, {$push:()});
+            //await db.collection('classes').updateOne({className: name}, {$push:()});
             client.close();
 
-        } catch(err) {
+        } catch (err) {
             console.log('There was a problem with the insert');
             throw err;
         }
-    }    
+    }
 
     async getAll() {
-        
+
         let all = [];
         try {
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
