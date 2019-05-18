@@ -4,39 +4,61 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const Handlebars = require('handlebars');
-const handlebars = require('express-handlebars').create({defaultLayout: 'main'}); 
+const handlebars = require('express-handlebars').create({ defaultLayout: 'main' });
 
-const DBAbstraction = require('./DBAbstraction');
+const DBAbstraction = require('./DBAbstraction.js');
 
 const db = new DBAbstraction('mongodb://10.0.0.2/attendance');
 
 const app = express();
 
 app.engine('handlebars', handlebars.engine);
-app.set('view engine', 'handlebars');   
+app.set('view engine', 'handlebars');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 Handlebars.registerHelper('json', function(items) {
     return JSON.stringify(items);
-  });
+});
 
+app.post('/classes', async(req, res) => {
+    try {
+        const ClassName = req.body.ClassName;
+        const DateTime = req.body.DateTime;
+        const Students = req.body.Students;
 
+        await db.insertClass(ClassName, DateTime, Students);
+        res.redirect('/')
+    } catch (err) {
+        console.log(err);
+    }
+});
 
-app.get('/', async (req, res) => {
+app.get('/allClasses', async(req, res) => {
+    try {
+        const AllClasses = await db.getAllClasses();
+        res.json(AllClasses);
+    } catch (err) {
+        console.log(err);
+    }
+})
+
+app.get('/', async(req, res) => {
     //const musician = await db.getAll();
-    
     //var str = JSON.stringify(musician);
-    //console.log(str);
+    //console.log(str)
     res.render('home');
 });
 
-app.get('/class', async (req, res) => {
-    res.render('class');
+app.get('/newClass', async(req, res) => {
+    res.render('newClass');
+});
+app.get('/detailedClass', async(req, res) => {
+    res.render('detailedClass');
 });
 
-app.get('/website', async (req, res) => {
+app.get('/website', async(req, res) => {
     res.render('archive');
 });
 
@@ -48,8 +70,8 @@ app.use((req, res) => {
 });
 
 
-app.listen(53140, function () {
-    console.log('The server is up and running...');
+app.listen(53140, function() {
+    console.log('The server is up and running on port 53140...');
 });
 
 // db.init()

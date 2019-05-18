@@ -18,62 +18,77 @@ class DBAbstraction {
         });
     }
 
-    async insert(className, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed) {
-
+    async insertClass(className, dateTime, students) {
+        console.log('Is it ever getting here?')
         try {
-            const Class = {
-                className: name,
-                students: [{ type: saxType, des: info }],
+            const NewClass = {
+                name: className,
+                date: dateTime,
+                student: students,
             };
-
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
-
-            await db.collection('classes').insertOne(Class); //can also insertMany
+            await db.collection('Classes').insertOne(NewClass);
             client.close();
-
         } catch (err) {
-            console.log('There was a problem with the insert');
+            console.log('There was a problem with inserting a class');
+            throw err;
+        }
+        console.log("is it getting here?")
+    }
+
+    async insertStudent(firstName, lastName, image) {
+        try {
+            const newStudent = {
+                fName: firstName,
+                lName: lastName,
+                img: image
+            };
+            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
+            const db = client.db('AttendanceDB');
+            await db.collection('Students').insertOne(newStudent);
+            client.close();
+        } catch (err) {
+            console.log('There wasa problem with inserting a student');
             throw err;
         }
     }
 
-    async insertSax(name, saxType, saxMan, saxModel, mouthMan, mouthModel, lig, reed) {
-
+    async getAllClasses() {
+        let Classes = [];
         try {
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
 
-            //await db.collection('classes').updateOne({className: name}, {$push:()});
-            client.close();
-
-        } catch (err) {
-            console.log('There was a problem with the insert');
-            throw err;
-        }
-    }
-
-    async getAll() {
-
-        let all = [];
-        try {
-            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-            const db = client.db('AttendanceDB');
-
-            all = await db.collection('classes').find().toArray();
+            Classes = await db.collection('Classes').find().toArray();
+            console.log(Classes);
             client.close();
         } catch (err) {
-            console.log('There was a problem finding the games');
+            console.log('There was a problem finding all of the classes');
             throw err;
         }
-        return all;
+        return Classes;
     }
 
-    // async getByName(userName) {
-    //     let all = [];
-    //     try {
-    //         const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-    //         const db = client.db('AttendanceDB');
+    async getAllStudents() {
+            let Students = [];
+            try {
+                const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
+                const db = client.db('AttendanceDB');
+
+                Students = await db.collection('students').find().toArray();
+                client.close();
+            } catch (err) {
+                console.log('There was a problem finding all of the students');
+                throw err;
+            }
+            return Students;
+        }
+        // async getByName(userName) {
+        //     let all = [];
+        //     try {
+        //         const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
+        //         const db = client.db('AttendanceDB');
 
     //         all = await db.collection('Sax').mapReduce({"musician": userName}).toArray();
     //         client.close();
