@@ -7,47 +7,18 @@
       </tr>
     </thead>
     <tbody>
-        {{#each NewClass}}
-            <div class="list-group">
-                <a href="#" class="list-group-item">{{name}}</a>
-            </div>
-            <tr>
-                <td class="font-weight-bold" onclick="">{{name}}, {{date}}</td>
-            </tr>
-        {{/each}}
+        {{#if NewClass}}
+            {{#each NewClass}}
+                <div class="list-group">
+                    <a href="/detailedClass:{{_id}}" class="font-weight-bold">{{name}},  {{date}}</a>
+                </div>
+                <tr>
+                    <td class="font-weight-bold" onclick="">{{name}},  {{date}}</td>
+                </tr>
+            {{/each}}
+        {{/if}}
     </tbody>
 </table>
-
-{{!-- <script>
-    document.addEventListener("load", async (e) => {
-        alert("The page has been loaded")
-        e.preventDefault();
-        try{
-            const response = await fetch('/allClasses');
-            if(response.ok)
-            {
-                const Classes = await response.json();
-                loadTableWithClasses(Classes);
-            }
-            else{
-                alert("hellooooo")
-            }
-        }
-    })
-    function loadTableWithClasses(classes) {
-        const table = document.getElementById("t01");
-        const tableBody = table.children[1];
-        tableBody.innerHTML = "";
-
-        classes.forEach(game => {
-            const tr = document.createElement("tr");
-            const ClassNameTd = document.createElement("td");
-            ClassNameTd.innerHTML = `${game["name"]},  ${game["date"]}`;
-            tr.appendChild(ClassNameTd);
-            tableBody.appendChild(tr);
-        });
-    }
-</script> --}}
 
 
 

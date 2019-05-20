@@ -46,14 +46,17 @@ app.get('/allClasses', async(req, res) => {
 
 app.get('/home', async(req, res) => {
     const classes = await db.getAllClasses();
-    res.render('home', {NewClass: classes});
+    res.render('home', { NewClass: classes });
 });
 
 app.get('/newClass', async(req, res) => {
     res.render('newClass');
 });
-app.get('/detailedClass', async(req, res) => {
-    res.render('detailedClass');
+app.get('/detailedClass:myvar', async(req, res) => {
+    const classID = req.params.myvar;
+    const Class = await db.getClassByID(classID);
+    console.log(Class);
+    res.render('detailedClass', { DetailedClass: Class });
 });
 
 app.get('/website', async(req, res) => {

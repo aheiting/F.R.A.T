@@ -49,9 +49,25 @@ class DBAbstraction {
             await db.collection('Students').insertOne(newStudent);
             client.close();
         } catch (err) {
-            console.log('There wasa problem with inserting a student');
+            console.log('There was a problem with inserting a student');
             throw err;
         }
+    }
+
+    async getClassByID(classID) {
+        let Class = [];
+        console.log(classID);
+        try {
+            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
+            const db = client.db('AttendanceDB');
+
+            Class = await db.collection('Classes').find({ "_id": classID }).toArray();
+            console.log(Class[0]);
+        } catch (err) {
+            console.log('There was a problem finding the specific class');
+            throw err;
+        }
+        return Class;
     }
 
     async getAllClasses() {
@@ -61,7 +77,6 @@ class DBAbstraction {
             const db = client.db('AttendanceDB');
 
             Classes = await db.collection('Classes').find().toArray();
-            console.log(Classes);
             client.close();
         } catch (err) {
             console.log('There was a problem finding all of the classes');
