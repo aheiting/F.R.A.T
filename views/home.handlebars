@@ -7,16 +7,11 @@
       </tr>
     </thead>
     <tbody>
-        {{#if NewClass}}
             {{#each NewClass}}
                 <div class="list-group">
                     <a href="/detailedClass/{{name}}" class="font-weight-bold">{{name}},  {{date}}</a>
                 </div>
-                <tr>
-                    <td class="font-weight-bold" onclick="">{{name}},  {{date}}</td>
-                </tr>
             {{/each}}
-        {{/if}}
     </tbody>
 </table>
 
