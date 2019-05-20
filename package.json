@@ -4,11 +4,14 @@
   "description": "This is an upload test of the github.",
   "main": "index.js",
   "dependencies": {
+    "bootstrap": "^4.3.1",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
     "handlebars": "^4.1.2",
+    "jquery": "^3.4.1",
     "mongodb": "^3.2.4",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "popper.js": "^1.15.0"
   },
   "devDependencies": {},
   "scripts": {
