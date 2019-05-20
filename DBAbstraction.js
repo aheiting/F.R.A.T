@@ -37,12 +37,11 @@ class DBAbstraction {
         console.log("is it getting here?")
     }
 
-    async insertStudent(firstName, lastName, image) {
+    async insertStudent(firstName, lastName) {
         try {
             const newStudent = {
                 fName: firstName,
                 lName: lastName,
-                img: image
             };
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
@@ -56,13 +55,12 @@ class DBAbstraction {
 
     async getClassByID(classID) {
         let Class = [];
-        console.log(classID);
         try {
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
 
-            Class = await db.collection('Classes').find({ "_id": classID }).toArray();
-            console.log(Class[0]);
+            Class = await db.collection('Classes').find({ 'name': classID }).toArray();
+            //console.log(Class);
         } catch (err) {
             console.log('There was a problem finding the specific class');
             throw err;
