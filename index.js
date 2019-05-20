@@ -29,7 +29,7 @@ app.post('/classes', async(req, res) => {
         const Students = req.body.Students;
 
         await db.insertClass(ClassName, DateTime, Students);
-        //res.redirect('/')
+        res.redirect('/')
     } catch (err) {
         console.log(err);
     }
