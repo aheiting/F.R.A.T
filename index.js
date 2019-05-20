@@ -29,7 +29,7 @@ app.post('/classes', async(req, res) => {
         const Students = req.body.Students;
 
         await db.insertClass(ClassName, DateTime, Students);
-        res.redirect('/')
+        res.redirect('/home');
     } catch (err) {
         console.log(err);
     }
@@ -44,7 +44,7 @@ app.get('/allClasses', async(req, res) => {
     }
 })
 
-app.get('/', async(req, res) => {
+app.get('/home', async(req, res) => {
     const classes = await db.getAllClasses();
     res.render('home', {NewClass: classes});
 });
