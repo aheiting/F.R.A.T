@@ -8,7 +8,7 @@ const handlebars = require('express-handlebars').create({ defaultLayout: 'main' 
 
 const DBAbstraction = require('./DBAbstraction.js');
 
-const db = new DBAbstraction('mongodb://10.0.0.2/attendance');
+const db = new DBAbstraction('mongodb://localhost:27017');
 
 const app = express();
 
@@ -29,7 +29,7 @@ app.post('/classes', async(req, res) => {
         const Students = req.body.Students;
 
         await db.insertClass(ClassName, DateTime, Students);
-        res.redirect('/')
+        //res.redirect('/')
     } catch (err) {
         console.log(err);
     }
@@ -45,10 +45,8 @@ app.get('/allClasses', async(req, res) => {
 })
 
 app.get('/', async(req, res) => {
-    //const musician = await db.getAll();
-    //var str = JSON.stringify(musician);
-    //console.log(str)
-    res.render('home');
+    const classes = await db.getAllClasses();
+    res.render('home', {NewClass: classes});
 });
 
 app.get('/newClass', async(req, res) => {

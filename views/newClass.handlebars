@@ -23,7 +23,7 @@
 </form>
 
 <script>
-
+    console.log("hello?")
     document.addEventListener("DOMContentLoaded", (event) => {
         //alert("The page has been loaded.");
     });
@@ -41,7 +41,8 @@
                 DateTime: DateTime,
                 Students: Students
             };
-            alert("Is it getting here?")
+            console.log("Is it getting here?")
+
             const fetchConfigData = {
                 method: "POST",
                 body: JSON.stringify(userData), 
@@ -53,12 +54,15 @@
             const response = await fetch("/classes", fetchConfigData);
         
             if(response.ok) {
-                 console.log("Error with the response data");
-            } 
+                const games = await response.json();
+                loadTableWithGames(games);
+            } else {
+                console.log("Error with the response data");
+            }
 
         } catch (err) {
             console.log(`Error: ${err}`);
         }
 
-    };
+    });
 </script>

@@ -7,15 +7,15 @@
       </tr>
     </thead>
     <tbody>
-        {{#each Classes}}
+        {{#each NewClass}}
             <tr>
-                <td class="font-weight-bold" onclick="">{{this/name}}, {{this/date}}</td>
+                <td class="font-weight-bold" onclick="">{{name}}, {{date}}</td>
             </tr>
         {{/each}}
     </tbody>
 </table>
 
-<script>
+{{!-- <script>
     document.addEventListener("load", async (e) => {
         alert("The page has been loaded")
         e.preventDefault();
@@ -44,7 +44,7 @@
             tableBody.appendChild(tr);
         });
     }
-</script>
+</script> --}}
 
 
 
