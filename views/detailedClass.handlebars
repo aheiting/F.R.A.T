@@ -1,2 +1,16 @@
-<label>{{DetailedClass/name}}</label>
-<label>{{this/date}}</label>
+<table id="t01" class="table" cellspacing="0" cellpadding="0">
+    <thead>
+        {{#each NewClass}}
+            <tr>
+                <th>{{name}}, {{date}}</th>
+            </tr>
+        {{/each}}
+    </thead>
+    <tbody>
+        {{#each NewClass}}
+            <tr>
+                <td class="font-weight-bold" onclick="">{{student}}</td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>

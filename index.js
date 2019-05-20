@@ -56,7 +56,7 @@ app.get('/detailedClass/:myvar', async(req, res) => {
     const classID = req.params.myvar;
     const Class = await db.getClassByID(classID);
     console.log(Class);
-    res.render('detailedClass', { DetailedClass: Class });
+    res.render('detailedClass', { NewClass: Class });
 });
 
 app.get('/website', async(req, res) => {
