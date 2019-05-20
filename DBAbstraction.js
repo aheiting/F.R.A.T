@@ -20,12 +20,30 @@ class DBAbstraction {
 
     async insertClass(className, dateTime, students) {
         console.log('Is it ever getting here?')
+        let studentArray = [];
+        var wordSeparator = '';
+        for (var i = 0; i < students.length; i++) {
+            if (students[i] == ',') {
+                studentArray.push(wordSeparator);
+                wordSeparator = '';
+                continue;
+            } else if (students[i] == ' ') {
+                continue;
+            } else if (i == students.length - 1) {
+                wordSeparator = wordSeparator + students[i];
+                studentArray.push(wordSeparator);
+                continue;
+            }
+            wordSeparator = wordSeparator + students[i];
+
+        }
         try {
             const NewClass = {
                 name: className,
                 date: dateTime,
-                student: students,
+                student: studentArray,
             };
+            console.log(NewClass)
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
             await db.collection('Classes').insertOne(NewClass);
