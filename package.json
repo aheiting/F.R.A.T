@@ -1,0 +1,33 @@
+{
+  "name": "FacialRecognitionAttendence",
+  "version": "1.0.0",
+  "description": "This is an upload test of the github.",
+  "main": "index.js",
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.2",
+    "handlebars": "^4.1.2",
+    "jquery": "^3.4.1",
+    "mongodb": "^3.2.5",
+    "morgan": "^1.9.1",
+    "net": "^1.0.2",
+    "node": "^12.2.0",
+    "popper.js": "^1.15.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aheiting/FacialRecognitionAttendence.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aheiting/FacialRecognitionAttendence/issues"
+  },
+  "homepage": "https://github.com/aheiting/FacialRecognitionAttendence#readme"
+}
