@@ -62,6 +62,27 @@ app.get('/stop', async(req, res) => {
     //make student object
     console.log("The server name array: " + studentNameArray);
     console.log("The client name array: " + myStudentArray);
+
+    //compare
+
+    let here;
+    let not_here;
+    for (var j = 0; j < studentNameArray.length; j++) {
+        var is_here=false;
+        for (var i = 0; i < myStudentArray.length; i++) {
+            if(studentNameArray[j]==myStudentArray[i])
+            {
+                here+=studentNameArray[j];
+                is_here=true;
+            }
+        }
+        if(is_here==false)
+        {
+            not_here=studentNameArray[j];
+        }
+    }
+    console.log(here);
+    console.log(not_here);
     res.json(info);
 })
 
