@@ -58,7 +58,7 @@ app.get('/stop', async(req, res) => {
 
     //make student object
     console.log("The server name array: " + studentNameArray);
-    console.log(myStudentArray);
+    console.log("The client name array: " + myStudentArray);
     res.json(info);
 })
 
