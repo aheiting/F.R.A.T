@@ -1,13 +1,17 @@
 // Import net module.
 var net = require('net');
 
+let people=[];
+
 class Server {
+    
 
     constructor(dbUrl) {
         this.dbUrl = dbUrl;
     }
 
-    async setShitUp() {
+    setShitUp() {
+        console.log("inside of the setup function")
         // Create and return a net.Server object, the function will be invoked when client connect to this server.
         var server = net.createServer(function(client) {
 
@@ -17,6 +21,7 @@ class Server {
 
             client.setTimeout(1000);
 
+
             // When receive client data.
             client.on('data', function(data) {
 
@@ -25,6 +30,33 @@ class Server {
 
                 // Server send data back to client use client net.Socket object.
                 client.end('Server received data : ' + data + ', send back to client data size : ' + client.bytesWritten);
+
+                var there=false;
+
+                for(var i =0;i<people.length;i++)
+                {
+                    var comma =0;
+                    var is_it_there=true;
+                    while(people[i][comma]!=",")
+                    {
+                        if(people[i][comma]!=data[comma])
+                        {
+                            is_it_there=false;
+                        }
+                        comma++;
+                        if(people[i][comma]==",")
+                        {
+                            if(is_it_there==true)
+                            {
+                                there=true;
+                            }
+                        }
+                    }
+                }
+                if(there==false)
+                {
+                    people.push(data);
+                }
             });
 
             // When client send data complete.
@@ -70,6 +102,13 @@ class Server {
             });
 
         });
+    }
+
+    retrieve(){
+        console.log("Inside of the retrieve function")
+        var now=people;
+        people=[];
+        return now;
     }
 }
 module.exports = Server;
