@@ -1,4 +1,41 @@
+<div class="text-white">
+    {{#each NewClass}}
+    <h1>
+        {{name}}
+    </h1>
+    <h5>
+        {{date}}
+    </h5>
+    {{/each}}
+</div>
+<div class="container">
+    <div>
+        <h4>
+            Students Here
+        </h4>
+    </div>
+    <div class="card text-white bg-dark" style="width: 32rem;">
+        <ul class="list-group list-group-flush">
+            {{#each NewClass}}                
+                        {{#each student}}
+                            {{#each name}}
+                            <li class="list-group-item">{{[]}}</li>
+                            {{/each}}
+                        {{/each}} 
+                    </tr>
+                {{/each}}
+        </ul>
+    </div>
+</div>
+
+<div>
+
+</div>
+
 <button class = "btn btn-default" type="button" id="startButton" name="startButton">Start Button</button>
+
+
+
 
 <table id="t01" class="table" cellspacing="0" cellpadding="0">
     <thead>
