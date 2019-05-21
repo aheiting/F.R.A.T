@@ -95,15 +95,14 @@ app.get('/newClass', async(req, res) => {
 });
 app.get('/detailedClass/:myvar', async(req, res) => {
     const classID = req.params.myvar;
-    const Class = await db.getClassByID(classID);
+    var Class = await db.getClassByID(classID);
     myStudentArray = [];
-    console.log(Class)
-        //myStudentArray = Class.student;
-    for (var i = 0; i < Class.student.studentName.length; i++) {
-        myStudentArray = Class.student;
+    //myStudentArray = Class.student;
+    for (var i = 0; i < Class[0].student[0].studentName.length; i++) {
+        myStudentArray[i] = Class[0].student[0].studentName[i];
     }
-    myStudentArray[1];
-    //console.log(Class);
+    //myStudentArray[1];
+    console.log(myStudentArray);
     res.render('detailedClass', { NewClass: Class });
 });
 app.get('/website', async(req, res) => {
