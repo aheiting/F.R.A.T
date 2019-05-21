@@ -41,7 +41,7 @@ class DBAbstraction {
             const NewClass = {
                 name: className,
                 date: dateTime,
-                student: studentArray,
+                student: [{name:studentArray}]
             };
             console.log(NewClass)
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
