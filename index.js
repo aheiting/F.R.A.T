@@ -32,7 +32,7 @@ Handlebars.registerHelper('json', function(items) {
 });
 sv.setShitUp();
 app.get('/start', async(req, res) => {
-    
+    sv.retrieve();
     console.log("is it getting here?");
     res.json("success");
 });
