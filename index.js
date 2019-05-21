@@ -21,6 +21,7 @@ const sv = new Server;
 const app = express();
 
 app.engine('handlebars', handlebars.engine);
+app.set('view engine', 'handlebars');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
