@@ -1,5 +1,6 @@
 'use strict'
 
+const net = require('net');
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require("body-parser");
@@ -7,9 +8,13 @@ const Handlebars = require('handlebars');
 const handlebars = require('express-handlebars').create({ defaultLayout: 'main' });
 
 const DBAbstraction = require('./DBAbstraction.js');
+const Server = require('./server.js');
 
 const db = new DBAbstraction('mongodb://localhost:27017');
 
+const sv = new Server;
+
+sv.setShitUp();
 const app = express();
 
 app.engine('handlebars', handlebars.engine);
