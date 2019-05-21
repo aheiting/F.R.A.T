@@ -4,14 +4,18 @@
     <thead>
         {{#each NewClass}}
             <tr>
-                <th>{{name}}, {{date}}</th>
+                <th class="font-weight-bold">{{name}}</th>
+                <th class="font-weight-bold">{{date}}</th>
             </tr>
         {{/each}}
     </thead>
     <tbody>
-        {{#each this/student}}
-            <tr>
-                <td class="font-weight-bold">{{student}}</td>
+        {{#each NewClass}}                
+                {{#each student}}
+                    {{#each name}}
+                    <td class="font-weight-light">{{[]}}</td>
+                    {{/each}}
+                {{/each}} 
             </tr>
         {{/each}}
     </tbody>
