@@ -1,4 +1,4 @@
-# Project Title
+# F.R.A.T.
 
 This file will read the pictures of a given directory as students and once one of these faces are deteced it will send the name of the file and the time stamp to the website.
 
