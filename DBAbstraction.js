@@ -42,9 +42,9 @@ class DBAbstraction {
             const NewClass = {
                 name: className,
                 date: dateTime,
-                student: studentArray,
+                student: [{name:studentArray}]
             };
-            // console.log(NewClass)
+
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
             await db.collection('Classes').insertOne(NewClass);
@@ -56,11 +56,10 @@ class DBAbstraction {
         console.log("is it getting here?")
     }
 
-    async insertStudent(firstName, lastName) {
+    async insertStudent(Name) {
         try {
             const newStudent = {
-                fName: firstName,
-                lName: lastName,
+               name: Name
             };
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
@@ -79,7 +78,6 @@ class DBAbstraction {
             const db = client.db('AttendanceDB');
 
             Class = await db.collection('Classes').find({ 'name': classID }).toArray();
-            //console.log(Class);
         } catch (err) {
             console.log('There was a problem finding the specific class');
             throw err;
@@ -102,34 +100,36 @@ class DBAbstraction {
         return Classes;
     }
 
-    async getAllStudents() {
-            let Students = [];
-            try {
-                const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-                const db = client.db('AttendanceDB');
+    async getStudentsByClassID(classID) {
+        let Students = [];
+        let Class;
+        try {
+            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
+            const db = client.db('AttendanceDB');
 
-                Students = await db.collection('students').find().toArray();
-                client.close();
-            } catch (err) {
-                console.log('There was a problem finding all of the students');
-                throw err;
-            }
-            return Students;
+            Class = await db.collection('Classes').find({ '_id': classID});
+            Students = Class.students;
+            client.close();
+        } catch (err) {
+            console.log('There was a problem finding the specific students');
+            throw err;
         }
-        // async getByName(userName) {
-        //     let all = [];
-        //     try {
-        //         const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-        //         const db = client.db('AttendanceDB');
+        return Students;
+    }
 
-    //         all = await db.collection('Sax').mapReduce({"musician": userName}).toArray();
-    //         client.close();
-    //     } catch (err) {
-    //         console.log('There was a problem finding the games');
-    //         throw err;
-    //     }
-    //     return all;
-    // }
+    async getAllStudents() {
+        let Students = [];
+        try {
+            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
+            const db = client.db('AttendanceDB');
 
+            Students = await db.collection('students').find().toArray();
+            client.close();
+        } catch (err) {
+            console.log('There was a problem finding all of the students');
+            throw err;
+        }
+        return Students;
+    }
 }
 module.exports = DBAbstraction;

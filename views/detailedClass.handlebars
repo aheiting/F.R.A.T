@@ -1,40 +1,76 @@
-<button class = "btn btn-default" type="button" id="startButton" name="startButton">Start Button</button>
+<div class="text-white">
+    {{#each NewClass}}
+    <h1>
+        {{name}}
+    </h1>
+    <h5>
+        {{date}}
+    </h5>
+    {{/each}}
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h4>Students Here</h4>
+            <div class="card text-center bg-dark" style="width: 32rem;">
+                <ul class="list-group list-group-flush">
+                    {{#each NewClass}}                
+                        {{#each student}}
+                            {{#each name}}
+                                <li class="list-group-item">{{[]}}</li>
+                            {{/each}}
+                        {{/each}} 
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        <div class="col">
+            <h4>Students Absent</h4>
+            <div class="card text-center bg-dark" style="width: 32rem;">
+                <ul class="list-group list-group-flush">
+                    {{#each NewClass}}                
+                        {{#each student}}
+                            {{#each name}}
+                                <li class="list-group-item">{{[]}}</li>
+                            {{/each}}
+                        {{/each}} 
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </div>  
+    <div class="row mt-5">
+        <button class = "mx-auto px-md-5 btn btn-secondary" type="button" id="startButton" name="startButton" data-toggle="tooltip" data-placement="top" 
+        title="Begin taking attendance by pressing the button. When class beings, press button again to stop the program.">Start Attendance</button>
+    </div>  
+</div>
 
-<table id="t01" class="table" cellspacing="0" cellpadding="0">
-    <thead>
-        {{#each NewClass}}
-            <tr>
-                <th>{{name}}, {{date}}</th>
-            </tr>
-        {{/each}}
-    </thead>
-    <tbody>
-        {{#each this/student}}
-            <tr>
-                <td class="font-weight-bold">{{student}}</td>
-            </tr>
-        {{/each}}
-    </tbody>
-</table>
+<div>
+    
+</div>
+
 
 <script>
     document.getElementById("startButton").addEventListener("click", async(e) =>{
         e.preventDefault();
-        if( document.getElementById("startButton").innerText == "Start Button") {
+
+        if( document.getElementById("startButton").innerText == "Start Attendance") {
             response = await fetch(`/start`);
             if(!response.ok)
             {
                 alert("error starting the facial rec");
             }
-            document.getElementById("startButton").innerText = "Stop Button";
+            document.getElementById("startButton").innerText = "Stop Attendance";
         }
-        else if( document.getElementById("startButton").innerText == "Stop Button") {
+        else if( document.getElementById("startButton").innerText == "Stop Attendance") {
             response = await fetch(`/stop`);
             if(!response.ok)
             {
                 alert("error stopping the facial rec");
             }
-            document.getElementById("startButton").innerText = "Start Button";
+            document.getElementById("startButton").innerText = "Start Attendance";
         }
+
     });
+
 </script>
