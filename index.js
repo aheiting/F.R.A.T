@@ -29,7 +29,7 @@ Handlebars.registerHelper('json', function(items) {
 });
 sv.setShitUp();
 app.get('/start', async(req, res) => {
-    
+
     console.log("is it getting here?");
     res.json("success");
 });
@@ -37,22 +37,17 @@ var info;
 var studentNames = [];
 //console.log(info);
 app.get('/stop', async(req, res) => {
-    info=sv.retrieve();
+    info = sv.retrieve();
     console.log(info);
     var studentNameArray = []
-    //parse
+        //parse
     var name = "";
-    for(var j = 0; j < info.length; j++)
-    {
-        for (var i = 0; i < info[j].length; i++)
-        {
-            if (info[j][i] != ",")
-            {
+    for (var j = 0; j < info.length; j++) {
+        for (var i = 0; i < info[j].length; i++) {
+            if (info[j][i] != ",") {
                 console.log(name);
-                name = name+info[j][i];
-            }
-            else
-            {
+                name = name + info[j][i];
+            } else {
                 console.log(name);
                 studentNameArray.push(name);
                 name = '';
@@ -100,12 +95,16 @@ app.get('/newClass', async(req, res) => {
 });
 app.get('/detailedClass/:myvar', async(req, res) => {
     const classID = req.params.myvar;
-    const Class = await db.getClassByID(classID);
-    myStudentArray = Class.student;
-    //console.log(Class);
+    var Class = await db.getClassByID(classID);
+    myStudentArray = [];
+    //myStudentArray = Class.student;
+    for (var i = 0; i < Class[0].student[0].studentName.length; i++) {
+        myStudentArray[i] = Class[0].student[0].studentName[i];
+    }
+    //myStudentArray[1];
+    console.log(myStudentArray);
     res.render('detailedClass', { NewClass: Class });
 });
-
 app.get('/website', async(req, res) => {
     res.render('archive');
 });
@@ -117,12 +116,3 @@ app.use((req, res) => {
 app.listen(53140, function() {
     console.log('The server is up and running on port 53140...');
 });
-
-// db.init()
-//     .then(() => {
-//         app.listen(53140, () => console.log('The server is up and running...'));
-//     })
-//     .catch(err => {
-//         console.log('Problem setting up the database');
-//         console.log(err);
-//     });
