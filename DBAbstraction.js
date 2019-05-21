@@ -42,9 +42,8 @@ class DBAbstraction {
             const NewClass = {
                 name: className,
                 date: dateTime,
-                student: [{name:studentArray}]
+                student: [{ studentName: studentArray }]
             };
-
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
             await db.collection('Classes').insertOne(NewClass);
@@ -59,7 +58,7 @@ class DBAbstraction {
     async insertStudent(Name) {
         try {
             const newStudent = {
-               name: Name
+                name: Name
             };
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
@@ -77,7 +76,8 @@ class DBAbstraction {
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
 
-            Class = await db.collection('Classes').find({ 'name': classID }).toArray();
+            Class = await db.collection('Classes').find({ 'name': classID }).limit(1).toArray();
+            console.log(Class);
         } catch (err) {
             console.log('There was a problem finding the specific class');
             throw err;
@@ -107,7 +107,7 @@ class DBAbstraction {
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
 
-            Class = await db.collection('Classes').find({ '_id': classID});
+            Class = await db.collection('Classes').find({ '_id': classID });
             Students = Class.students;
             client.close();
         } catch (err) {

@@ -29,7 +29,7 @@ Handlebars.registerHelper('json', function(items) {
 });
 sv.setShitUp();
 app.get('/start', async(req, res) => {
-    
+
     console.log("is it getting here?");
     res.json("success");
 });
@@ -37,22 +37,17 @@ var info;
 var studentNames = [];
 //console.log(info);
 app.get('/stop', async(req, res) => {
-    info=sv.retrieve();
+    info = sv.retrieve();
     console.log(info);
     var studentNameArray = []
-    //parse
+        //parse
     var name = "";
-    for(var j = 0; j < info.length; j++)
-    {
-        for (var i = 0; i < info[j].length; i++)
-        {
-            if (info[j][i] != ",")
-            {
+    for (var j = 0; j < info.length; j++) {
+        for (var i = 0; i < info[j].length; i++) {
+            if (info[j][i] != ",") {
                 console.log(name);
-                name = name+info[j][i];
-            }
-            else
-            {
+                name = name + info[j][i];
+            } else {
                 console.log(name);
                 studentNameArray.push(name);
                 name = '';
@@ -101,11 +96,16 @@ app.get('/newClass', async(req, res) => {
 app.get('/detailedClass/:myvar', async(req, res) => {
     const classID = req.params.myvar;
     const Class = await db.getClassByID(classID);
-    myStudentArray = Class.student;
+    myStudentArray = [];
+    console.log(Class)
+        //myStudentArray = Class.student;
+    for (var i = 0; i < Class.student.studentName.length; i++) {
+        myStudentArray = Class.student;
+    }
+    myStudentArray[1];
     //console.log(Class);
     res.render('detailedClass', { NewClass: Class });
 });
-
 app.get('/website', async(req, res) => {
     res.render('archive');
 });
