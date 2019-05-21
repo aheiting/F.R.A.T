@@ -26,8 +26,9 @@ class DBAbstraction {
             if (students[i] == ',') {
                 studentArray.push(wordSeparator);
                 wordSeparator = '';
-                continue;
-            } else if (students[i] == ' ') {
+                if (students[i] == ' ') {
+                    continue;
+                }
                 continue;
             } else if (i == students.length - 1) {
                 wordSeparator = wordSeparator + students[i];
@@ -43,7 +44,7 @@ class DBAbstraction {
                 date: dateTime,
                 student: [{name:studentArray}]
             };
-            console.log(NewClass)
+
             const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
             const db = client.db('AttendanceDB');
             await db.collection('Classes').insertOne(NewClass);
@@ -78,7 +79,6 @@ class DBAbstraction {
             const db = client.db('AttendanceDB');
 
             Class = await db.collection('Classes').find({ 'name': classID }).toArray();
-            //console.log(Class);
         } catch (err) {
             console.log('There was a problem finding the specific class');
             throw err;
@@ -102,33 +102,18 @@ class DBAbstraction {
     }
 
     async getAllStudents() {
-            let Students = [];
-            try {
-                const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-                const db = client.db('AttendanceDB');
+        let Students = [];
+        try {
+            const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
+            const db = client.db('AttendanceDB');
 
-                Students = await db.collection('students').find().toArray();
-                client.close();
-            } catch (err) {
-                console.log('There was a problem finding all of the students');
-                throw err;
-            }
-            return Students;
+            Students = await db.collection('students').find().toArray();
+            client.close();
+        } catch (err) {
+            console.log('There was a problem finding all of the students');
+            throw err;
         }
-        // async getByName(userName) {
-        //     let all = [];
-        //     try {
-        //         const client = await MongoClient.connect(this.dbUrl, { useNewUrlParser: true });
-        //         const db = client.db('AttendanceDB');
-
-    //         all = await db.collection('Sax').mapReduce({"musician": userName}).toArray();
-    //         client.close();
-    //     } catch (err) {
-    //         console.log('There was a problem finding the games');
-    //         throw err;
-    //     }
-    //     return all;
-    // }
-
+        return Students;
+    }
 }
 module.exports = DBAbstraction;

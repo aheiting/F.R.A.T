@@ -1,3 +1,5 @@
+<button class = "btn btn-default" type="button" id="startButton" name="startButton">Start Button</button>
+
 <table id="t01" class="table" cellspacing="0" cellpadding="0">
     <thead>
         {{#each NewClass}}
@@ -18,3 +20,28 @@
         {{/each}}
     </tbody>
 </table>
+
+<script>
+    document.getElementById("startButton").addEventListener("click", async(e) =>{
+        e.preventDefault();
+
+        if( document.getElementById("startButton").innerText == "Start Button") {
+            response = await fetch(`/start`);
+            if(!response.ok)
+            {
+                alert("error starting the facial rec");
+            }
+            document.getElementById("startButton").innerText = "Stop Button";
+        }
+        else if( document.getElementById("startButton").innerText == "Stop Button") {
+            response = await fetch(`/stop`);
+            if(!response.ok)
+            {
+                alert("error stopping the facial rec");
+            }
+            document.getElementById("startButton").innerText = "Start Button";
+        }
+
+    });
+
+</script>
