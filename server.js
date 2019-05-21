@@ -7,7 +7,7 @@ class Server {
         this.dbUrl = dbUrl;
     }
 
-    setShitUp() {
+    async setShitUp() {
         // Create and return a net.Server object, the function will be invoked when client connect to this server.
         var server = net.createServer(function(client) {
 
