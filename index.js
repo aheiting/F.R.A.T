@@ -65,8 +65,8 @@ app.get('/stop', async(req, res) => {
 
     //compare
 
-    let here;
-    let not_here;
+    let here=[];
+    let not_here=[];
     for (var j = 0; j < studentNameArray.length; j++) {
         var is_here=false;
         for (var i = 0; i < myStudentArray.length; i++) {
