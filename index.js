@@ -109,7 +109,7 @@ app.get('/allClasses', async(req, res) => {
     }
 })
 
-app.get('/home', async(req, res) => {
+app.get('/', async(req, res) => {
     const classes = await db.getAllClasses();
     res.render('home', { NewClass: classes });
 });
